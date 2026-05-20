@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
@@ -5,6 +6,15 @@ import {
   Sparkles, Heart, Target, Zap, Users, ArrowLeft,
   Instagram, Mail, Globe
 } from 'lucide-react'
+
+interface TeamMember {
+  id: string
+  name: string
+  role: string
+  bio: string
+  photo_url: string
+  display_order: number
+}
 
 export default function AboutPage() {
   return (
@@ -16,9 +26,7 @@ export default function AboutPage() {
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-rose-400 to-rose-600 flex items-center justify-center">
-              <Sparkles className="w-3.5 h-3.5 text-white" />
-            </div>
+            <img src="/logo.png" alt="HER365" className="w-8 h-8 rounded-lg" />
             <span className="font-display text-lg font-semibold text-rose-800">HER365</span>
           </Link>
         </div>
@@ -117,31 +125,15 @@ export default function AboutPage() {
 
       {/* Team */}
       <section className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <span className="text-rose-500 font-medium text-sm tracking-widest uppercase">The Team</span>
-          <h2 className="font-display text-4xl font-bold text-rose-900 mt-3 mb-4">Two Founders, One Mission</h2>
-          <p className="text-rose-700/70 max-w-xl mx-auto mb-12">
-            We're a small team with a big vision. HER365 is built with care, iteration, and genuine belief in women's potential.
-          </p>
-
-          <div className="grid md:grid-cols-2 gap-8 max-w-2xl mx-auto">
-            <div className="bg-gradient-to-br from-rose-50 to-rose-100 rounded-3xl p-8">
-              <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-rose-300 to-rose-500 flex items-center justify-center text-white font-display text-2xl font-bold mb-4">F</div>
-              <h3 className="font-display text-lg font-semibold text-rose-900">Founder</h3>
-              <p className="text-rose-600 text-sm mb-3">Vision & Strategy</p>
-              <p className="text-rose-700/60 text-xs leading-relaxed">
-                The driving force behind HER365. Passionate about women's empowerment and building technology that makes a real difference in people's lives.
-              </p>
-            </div>
-            <div className="bg-gradient-to-br from-rose-50 to-rose-100 rounded-3xl p-8">
-              <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-rose-400 to-rose-600 flex items-center justify-center text-white font-display text-2xl font-bold mb-4">B</div>
-              <h3 className="font-display text-lg font-semibold text-rose-900">Ben</h3>
-              <p className="text-rose-600 text-sm mb-3">Development & Engineering</p>
-              <p className="text-rose-700/60 text-xs leading-relaxed">
-                The technical mind bringing HER365 to life. Expert in mobile development, cloud infrastructure, and AI integration. Built the entire tech stack.
-              </p>
-            </div>
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <span className="text-rose-500 font-medium text-sm tracking-widest uppercase">The Team</span>
+            <h2 className="font-display text-4xl font-bold text-rose-900 mt-3 mb-4">The People Behind HER365</h2>
+            <p className="text-rose-700/70 max-w-xl mx-auto">
+              We are a small team with a big vision. HER365 is built with care, iteration, and genuine belief in women&apos;s potential.
+            </p>
           </div>
+          <DynamicTeamGrid />
         </div>
       </section>
 
@@ -190,9 +182,7 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-rose-400 to-rose-500 flex items-center justify-center">
-                <Sparkles className="w-3.5 h-3.5 text-white" />
-              </div>
+              <img src="/logo.png" alt="HER365" className="w-8 h-8 rounded-lg" />
               <span className="font-display text-lg font-semibold">HER365</span>
             </div>
             <div className="flex items-center gap-6 text-sm text-rose-300/70">
@@ -210,6 +200,78 @@ export default function AboutPage() {
           <p className="text-rose-400/60 text-xs text-center">&copy; 2026 HER365. A TabSphere Ltd Product. London, UK.</p>
         </div>
       </footer>
+    </div>
+  )
+}
+
+/* ─── Dynamic Team Grid ─── */
+function DynamicTeamGrid() {
+  const [members, setMembers] = useState<TeamMember[]>([])
+
+  useEffect(() => {
+    const loadMembers = () => {
+      const data = localStorage.getItem('her365_team_members')
+      if (data) {
+        try {
+          const parsed: TeamMember[] = JSON.parse(data)
+          setMembers(parsed.sort((a, b) => a.display_order - b.display_order))
+        } catch {
+          setFallbackMembers()
+        }
+      } else {
+        setFallbackMembers()
+      }
+    }
+    loadMembers()
+    const handleStorage = () => loadMembers()
+    window.addEventListener('storage', handleStorage)
+    return () => window.removeEventListener('storage', handleStorage)
+  }, [])
+
+  const setFallbackMembers = () => {
+    setMembers([
+      {
+        id: 'founder',
+        name: 'Founder',
+        role: 'Vision & Strategy',
+        bio: "The driving force behind HER365. Passionate about women's empowerment and building technology that makes a real difference.",
+        photo_url: '',
+        display_order: 0,
+      },
+      {
+        id: 'ben',
+        name: 'Ben',
+        role: 'Development & Engineering',
+        bio: 'The technical mind bringing HER365 to life. Expert in mobile development, cloud infrastructure, and AI integration.',
+        photo_url: '',
+        display_order: 1,
+      },
+    ])
+  }
+
+  if (members.length === 0) return null
+  const gridClass = members.length === 1
+    ? 'max-w-sm mx-auto'
+    : members.length === 2
+      ? 'md:grid-cols-2 max-w-2xl mx-auto'
+      : 'md:grid-cols-2 lg:grid-cols-3'
+
+  return (
+    <div className={`grid gap-6 ${gridClass}`}>
+      {members.map(member => (
+        <div key={member.id} className="bg-gradient-to-br from-rose-50 to-rose-100 rounded-3xl p-8 text-center group hover:shadow-lg transition-all">
+          {member.photo_url ? (
+            <img src={member.photo_url} alt={member.name} className="w-24 h-24 mx-auto rounded-full object-cover border-4 border-white shadow-md mb-5 group-hover:scale-105 transition-transform" />
+          ) : (
+            <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-rose-300 to-rose-500 flex items-center justify-center text-white font-display text-2xl font-bold mb-5 group-hover:scale-105 transition-transform">
+              {member.name.charAt(0)}
+            </div>
+          )}
+          <h3 className="font-display text-xl font-semibold text-rose-900 mb-1">{member.name}</h3>
+          <p className="text-rose-500 text-sm font-medium mb-3">{member.role}</p>
+          {member.bio && <p className="text-rose-700/60 text-sm leading-relaxed">{member.bio}</p>}
+        </div>
+      ))}
     </div>
   )
 }

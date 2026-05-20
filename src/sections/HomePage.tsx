@@ -29,10 +29,8 @@ function Navbar() {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-md shadow-sm border-b border-rose-100' : 'bg-transparent'}`}>
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-rose-400 to-rose-600 flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-white" />
-          </div>
+        <Link to="/" className="flex items-center gap-3">
+          <img src="/logo.png" alt="HER365" className="w-9 h-9 rounded-xl" />
           <span className="font-display text-xl font-semibold text-rose-800">HER365</span>
         </Link>
         <div className="hidden md:flex items-center gap-8">
@@ -85,9 +83,7 @@ function Hero() {
             <Button size="lg" className="bg-rose-500 hover:bg-rose-600 text-white rounded-full px-8 py-6 text-base shadow-lg shadow-rose-200 transition-all hover:shadow-xl hover:shadow-rose-300 hover:-translate-y-0.5">
               <Download className="w-5 h-5 mr-2" />Join the Waitlist
             </Button>
-            <Button size="lg" variant="outline" className="border-rose-300 text-rose-700 hover:bg-rose-50 rounded-full px-8 py-6 text-base">
-              Watch the Demo<ChevronRight className="w-5 h-5 ml-1" />
-            </Button>
+            <DemoVideoButton />
           </div>
           <div className="flex items-center gap-6 pt-4">
             <div className="flex -space-x-2">
@@ -182,10 +178,12 @@ function HowItWorks() {
           {steps.map((s, i) => <div key={s.num} className="relative">
             {i < 2 && <div className="hidden md:block absolute top-16 left-full w-full h-px bg-gradient-to-r from-rose-200 to-transparent z-0" />}
             <div className="relative z-10 text-center">
-              <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-rose-400 to-rose-600 flex items-center justify-center shadow-lg shadow-rose-200 mb-6">
-                <s.icon className="w-8 h-8 text-white" />
+              <div className="relative w-20 h-20 mx-auto mb-6">
+                <span className="font-display text-6xl font-bold text-rose-100 absolute -top-3 left-1/2 -translate-x-1/2 z-0">{s.num}</span>
+                <div className="relative z-10 w-20 h-20 rounded-full bg-gradient-to-br from-rose-400 to-rose-600 flex items-center justify-center shadow-lg shadow-rose-200">
+                  <s.icon className="w-8 h-8 text-white" />
+                </div>
               </div>
-              <span className="font-display text-5xl font-bold text-rose-100 absolute -top-2 left-1/2 -translate-x-1/2">{s.num}</span>
               <h3 className="font-display text-xl font-semibold text-rose-900 mb-3">{s.title}</h3>
               <p className="text-rose-700/70 text-sm leading-relaxed max-w-xs mx-auto">{s.desc}</p>
             </div>
@@ -347,7 +345,7 @@ function CTA() {
           <Button size="lg" className="bg-white text-rose-600 hover:bg-rose-50 rounded-full px-10 py-6 text-base font-semibold shadow-lg">
             <Download className="w-5 h-5 mr-2" />Download on App Store
           </Button>
-          <Button size="lg" variant="outline" className="border-white/40 text-white hover:bg-white/10 rounded-full px-10 py-6 text-base">
+          <Button size="lg" className="bg-white/10 border border-white/50 text-white hover:bg-white/20 rounded-full px-10 py-6 text-base">
             <Smartphone className="w-5 h-5 mr-2" />Join TestFlight Beta
           </Button>
         </div>
@@ -387,10 +385,8 @@ function Footer() {
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-10">
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-rose-400 to-rose-500 flex items-center justify-center">
-                <Sparkles className="w-4 h-4 text-white" />
-              </div>
+            <div className="flex items-center gap-3 mb-4">
+              <img src="/logo.png" alt="HER365" className="w-9 h-9 rounded-xl" />
               <span className="font-display text-xl font-semibold">HER365</span>
             </div>
             <p className="text-rose-300/80 text-sm leading-relaxed max-w-sm">A 365-day accountability system designed exclusively for women. Built with love.</p>
@@ -423,6 +419,37 @@ function Footer() {
         </div>
       </div>
     </footer>
+  )
+}
+
+/* ─── Demo Video Button ─── */
+function DemoVideoButton() {
+  const [videoUrl, setVideoUrl] = useState('')
+  useEffect(() => {
+    const data = localStorage.getItem('her365_site_settings')
+    if (data) {
+      try {
+        const settings = JSON.parse(data)
+        const video = settings.find((s: any) => s.key === 'demo_video_url')
+        if (video) setVideoUrl(video.value)
+      } catch {}
+    }
+  }, [])
+
+  if (!videoUrl) {
+    return (
+      <Button size="lg" variant="outline" className="border-rose-300 text-rose-700 hover:bg-rose-50 rounded-full px-8 py-6 text-base" disabled>
+        Demo Coming Soon <ChevronRight className="w-5 h-5 ml-1" />
+      </Button>
+    )
+  }
+
+  return (
+    <a href={videoUrl} target="_blank" rel="noopener noreferrer">
+      <Button size="lg" variant="outline" className="border-rose-300 text-rose-700 hover:bg-rose-50 rounded-full px-8 py-6 text-base">
+        Watch the Demo <ChevronRight className="w-5 h-5 ml-1" />
+      </Button>
+    </a>
   )
 }
 
