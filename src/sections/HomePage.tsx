@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+import { WaitlistModal } from '@/components/WaitlistModal'
 import {
   Target, Heart, Sparkles, Users, Zap, Calendar,
   CheckCircle2, ChevronRight, Star, Smartphone,
@@ -12,7 +13,7 @@ import {
 } from 'lucide-react'
 
 /* ───────────────── NAVIGATION ───────────────── */
-function Navbar() {
+function Navbar({ onOpenWaitlist }: { onOpenWaitlist: () => void }) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   useEffect(() => {
@@ -39,7 +40,7 @@ function Navbar() {
           ) : (
             <Link key={l.label} to={l.href} className="text-sm font-medium text-rose-700/80 hover:text-rose-600 transition-colors">{l.label}</Link>
           ))}
-          <Button size="sm" className="bg-rose-500 hover:bg-rose-600 text-white rounded-full px-5">Join the Waitlist</Button>
+          <Button size="sm" className="bg-rose-500 hover:bg-rose-600 text-white rounded-full px-5" onClick={onOpenWaitlist}>Join the Waitlist</Button>
         </div>
         <button className="md:hidden text-rose-700" onClick={() => setMobileOpen(!mobileOpen)}>
           {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -52,7 +53,7 @@ function Navbar() {
           ) : (
             <Link key={l.label} to={l.href} className="block py-3 text-rose-700 font-medium border-b border-rose-50" onClick={() => setMobileOpen(false)}>{l.label}</Link>
           ))}
-          <Button className="w-full mt-4 bg-rose-500 hover:bg-rose-600 text-white rounded-full">Join the Waitlist</Button>
+          <Button className="w-full mt-4 bg-rose-500 hover:bg-rose-600 text-white rounded-full" onClick={() => { onOpenWaitlist(); setMobileOpen(false) }}>Join the Waitlist</Button>
         </div>
       )}
     </nav>
@@ -60,7 +61,7 @@ function Navbar() {
 }
 
 /* ───────────────── HERO ───────────────── */
-function Hero() {
+function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void }) {
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-rose-50 via-cream to-rose-100" />
@@ -80,7 +81,7 @@ function Hero() {
             A 365-day accountability system designed exclusively for women. Build discipline, track habits, and transform your life — one day at a time.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button size="lg" className="bg-rose-500 hover:bg-rose-600 text-white rounded-full px-8 py-6 text-base shadow-lg shadow-rose-200 transition-all hover:shadow-xl hover:shadow-rose-300 hover:-translate-y-0.5">
+            <Button size="lg" className="bg-rose-500 hover:bg-rose-600 text-white rounded-full px-8 py-6 text-base shadow-lg shadow-rose-200 transition-all hover:shadow-xl hover:shadow-rose-300 hover:-translate-y-0.5" onClick={onOpenWaitlist}>
               <Download className="w-5 h-5 mr-2" />Join the Waitlist
             </Button>
             <DemoVideoButton />
@@ -455,10 +456,12 @@ function DemoVideoButton() {
 
 /* ───────────────── MAIN PAGE ───────────────── */
 export default function HomePage() {
+  const [waitlistOpen, setWaitlistOpen] = useState(false)
+
   return (
     <div className="min-h-screen bg-cream font-body">
-      <Navbar />
-      <Hero />
+      <Navbar onOpenWaitlist={() => setWaitlistOpen(true)} />
+      <Hero onOpenWaitlist={() => setWaitlistOpen(true)} />
       <TrustBar />
       <Features />
       <HowItWorks />
@@ -469,6 +472,7 @@ export default function HomePage() {
       <CTA />
       <Waitlist />
       <Footer />
+      <WaitlistModal open={waitlistOpen} onOpenChange={setWaitlistOpen} />
     </div>
   )
 }
