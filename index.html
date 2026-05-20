@@ -4,6 +4,44 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HER365 - 365 Days of Becoming Her</title>
+    <meta name="description" content="A 365-day accountability system designed exclusively for women. Build discipline, track habits, and transform your life with AI-powered daily guidance." />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NY448PFJK3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-NY448PFJK3');
+    </script>
+
+    <!-- Custom event tracking -->
+    <script>
+      // Track waitlist signup
+      function trackWaitlistSignup() {
+        gtag('event', 'join_waitlist', {
+          event_category: 'engagement',
+          event_label: 'waitlist_form'
+        });
+      }
+
+      // Track pricing clicks
+      function trackPricingClick(plan) {
+        gtag('event', 'click_pricing', {
+          event_category: 'conversion',
+          event_label: plan
+        });
+      }
+
+      // Track scroll depth (90%)
+      let scrollTracked = false;
+      window.addEventListener('scroll', function() {
+        if (!scrollTracked && (window.innerHeight + window.scrollY) >= document.body.offsetHeight * 0.9) {
+          gtag('event', 'scroll_90', { event_category: 'engagement' });
+          scrollTracked = true;
+        }
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>
