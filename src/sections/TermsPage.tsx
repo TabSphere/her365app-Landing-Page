@@ -84,7 +84,7 @@ export default function TermsPage() {
             </p>
             <ul className="space-y-2 text-rose-800/70 text-sm leading-relaxed list-disc pl-5">
               <li>Monthly: &pound;4.99 per month</li>
-              <li>Annual: &pound;29.99 per year</li>
+              <li>Annual: &pound;35.99 per year</li>
               <li>Lifetime: &pound;79.99 one-time purchase</li>
             </ul>
             <p className="text-rose-800/70 text-sm leading-relaxed mt-3">

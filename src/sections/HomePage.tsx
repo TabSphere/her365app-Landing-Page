@@ -234,7 +234,7 @@ function Pricing() {
   const plans = [
     { name: 'Free Trial', price: '7 Days', period: 'Full Access', desc: 'Experience everything HER365 has to offer.', features: ['All 365 days unlocked', '13 daily habits', 'Daily AI messages', 'Progress tracking', 'Streak counter'], cta: 'Start Free Trial', highlighted: false },
     { name: 'Monthly', price: '£4.99', period: '/month', desc: 'Perfect for starting your transformation journey.', features: ['Everything in Free Trial', 'Cloud backup & sync', 'AI voice coach', 'Shareable progress cards', 'Cancel anytime'], cta: 'Get Started', highlighted: true },
-    { name: 'Annual', price: '£29.99', period: '/year', desc: 'Best value. Commit to your full transformation.', features: ['Everything in Monthly', 'Save 50% vs monthly', 'Mood & cycle tracking', 'Priority support', 'Exclusive content packs'], cta: 'Save 50%', highlighted: false },
+    { name: 'Annual', price: '£35.99', period: '/year', desc: 'Best value. Commit to your full transformation.', features: ['Everything in Monthly', 'Save 40% vs monthly', 'Mood & cycle tracking', 'Priority support', 'Exclusive content packs'], cta: 'Save 40%', highlighted: false },
   ]
   return (
     <section id="pricing" className="py-24 bg-white relative">
@@ -305,7 +305,7 @@ function FAQ() {
   const faqs = [
     { q: 'Is HER365 really only for women?', a: 'HER365 is designed around how women live, work, and grow. The 13 daily habits, cycle awareness, and AI companion tone are all crafted specifically for women. However, anyone who connects with our approach is welcome.' },
     { q: 'Do I need an email to sign up?', a: 'No. HER365 uses anonymous authentication. You can start your journey immediately with zero friction. Optional email sign-in is available if you want cloud backup across devices.' },
-    { q: 'What happens after the 7-day free trial?', a: 'After 7 days, you can choose to subscribe for £4.99/month or £29.99/year. Your progress is saved either way — you can always come back where you left off.' },
+    { q: 'What happens after the 7-day free trial?', a: 'After 7 days, you can choose to subscribe for £4.99/month or £35.99/year. Your progress is saved either way — you can always come back where you left off.' },
     { q: 'Is my data private?', a: 'Absolutely. We use anonymous authentication by default. Your data syncs to Supabase with Row Level Security — only you can access it. We never sell or share your data. See our Privacy Policy for full details.' },
     { q: 'Can I use the voice coach offline?', a: 'Voice messages are cached locally for 7 days. After that, you need an internet connection to generate new voice messages. Morning AI text messages work offline using cached templates.' },
     { q: 'What if I miss a day?', a: 'Your streak resets, but your journey continues. The AI companion will encourage you to get back on track. You can also restart your journey anytime in Settings.' },
